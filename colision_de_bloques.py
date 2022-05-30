@@ -1,4 +1,5 @@
 from manim import *
+from numpy import block
 class Wall(Line):
     CONFIG={
         'tick_pacing':.4,
@@ -39,13 +40,15 @@ class Block(Square):
         'sheen_direction':UL,
     }
     def __init__(self,**kwargs):
-        Square.__init__(self,**kwargs)
         if self.CONFIG['width'] is None:
-            self.CONFIG['width']=self.mass_to_width(self.CONFIG['mass'])
-        if self.CONFIG['fill_color'] is None:
-            self.CONFIG['fill_color']=self.CONFIG['stroke_color']
-    def mass_to_width(self,mass):
-        return 1+0.25*np.log(mass)
-    def mass_to_color(self,mass):
-        colors=[LIGHT_GREY,BLUE_D,BLUE_D,BLUE_E,BLUE_E,DARK_GREY,DARK_GREY,BLACK]
-        index=min(int(np.log10(mass)),len(colors)-1)
+            self.CONFIG['width']=7
+        Square.__init__(self,**kwargs)
+class BlocksScene(Scene):
+    conf={
+        
+    }
+    def construct(self):
+        block=Block()
+        block.stretch_to_fit_width(block.CONFIG['width'])
+        self.play(Create(block))
+        self.wait()
